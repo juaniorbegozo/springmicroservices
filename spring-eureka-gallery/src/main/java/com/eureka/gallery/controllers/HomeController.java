@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.eureka.gallery.entities.Gallery;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RestController
 @RequestMapping("/")
@@ -36,7 +37,7 @@ public class HomeController {
 		return "Hello from Gallery Service running at: " + inetAddress. getHostAddress() +":"+ env.getProperty("local.server.port");
 	}
   
-	//@HystrixCommand(fallbackMethod = "fallback")
+	@HystrixCommand(fallbackMethod = "fallback")
 	@RequestMapping("/{id}")
 	public Gallery getGallery(@PathVariable final int id) {
 		LOGGER.info("Creating gallery object ... ");
