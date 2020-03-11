@@ -22,16 +22,17 @@ services:
     environment:
       EUREKA_SERVER: http://eureka-server:8761/eureka
     depends_on:
-      - eureka-server
+      - zuul-server
 
   gallery-service:
     image: eureka-gallery
-    ports:
-     - "8100:8100"
     environment:
       EUREKA_SERVER: http://eureka-server:8761/eureka
     depends_on:
-      - eureka-server
+      - zuul-server
+    deploy:
+      replicas: 2
+      endpoint_mode: dnsrr
 
   image-service:
     image: eureka-image
@@ -40,4 +41,4 @@ services:
     environment:
       EUREKA_SERVER: http://eureka-server:8761/eureka
     depends_on:
-      - eureka-server
+      - zuul-server
