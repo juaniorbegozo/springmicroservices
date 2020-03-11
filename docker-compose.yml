@@ -1,0 +1,43 @@
+version: '3.4'
+services:
+
+  eureka-server:
+    image: eureka-server
+    ports:
+     - "8761:8761"
+
+  zuul-server:
+    image: eureka-zuul
+    environment:
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+    ports:
+     - "8762:8762"
+    depends_on:
+      - eureka-server
+  
+  auth-service:
+    image: eureka-auth
+    ports:
+     - "9100:9100"
+    environment:
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+
+  gallery-service:
+    image: eureka-gallery
+    ports:
+     - "8100:8100"
+    environment:
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
+
+  image-service:
+    image: eureka-image
+    ports:
+     - "8200:8200"
+    environment:
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+    depends_on:
+      - eureka-server
